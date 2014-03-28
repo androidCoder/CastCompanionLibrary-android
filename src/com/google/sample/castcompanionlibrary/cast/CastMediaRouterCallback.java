@@ -20,6 +20,7 @@ import static com.google.sample.castcompanionlibrary.utils.LogUtils.LOGD;
 
 import android.content.Context;
 import android.support.v7.media.MediaRouter;
+import android.support.v7.media.MediaRouter.ProviderInfo;
 import android.support.v7.media.MediaRouter.RouteInfo;
 
 import com.google.android.gms.cast.CastDevice;
@@ -90,4 +91,15 @@ public class CastMediaRouterCallback extends MediaRouter.Callback {
         }
     }
 
+	/**
+	 * In case the cast device goes offline or could none was detected during
+	 * scan this callback is invoked. This information is valuable in case the
+	 * media router button visibility state has to be handled manually.
+	 */
+	@Override
+	public void onProviderChanged(MediaRouter _router, ProviderInfo _provider) {
+		if (_provider.getRoutes() == null || _provider.getRoutes().size() == 0) {
+			selectDeviceInterface.onCastDeviceDetected(null);
+		}
+	}
 }
