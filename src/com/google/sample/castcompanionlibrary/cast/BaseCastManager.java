@@ -360,20 +360,15 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
      * {@link onUiVisibilityChanged()} method is called.
      */
     public synchronized void decrementUiCounter() {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (--mVisibilityCounter == 0) {
-                    LOGD(TAG, "UI is no longer visible");
-                    if (mUiVisible) {
-                        mUiVisible = false;
-                        onUiVisibilityChanged(false);
-                    }
-                } else {
-                    LOGD(TAG, "UI is visible");
-                }
+       if (--mVisibilityCounter == 0) {
+            LOGD(TAG, "UI is no longer visible");
+            if (mUiVisible) {
+                mUiVisible = false;
+                onUiVisibilityChanged(false);
             }
-        }, 300);
+        } else {
+            LOGD(TAG, "UI is visible");
+        }
     }
 
     /**
