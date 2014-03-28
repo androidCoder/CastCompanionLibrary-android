@@ -30,6 +30,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.MediaRouteActionProvider;
+import android.support.v7.app.MediaRouteButton;
 import android.support.v7.app.MediaRouteDialogFactory;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
@@ -298,7 +299,6 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
      * @param menuResourceId The resource id of the cast button in the xml menu descriptor file
      * @return
      */
-
     public MenuItem addMediaRouterButton(Menu menu, int menuResourceId) {
         MenuItem mediaRouteMenuItem = menu.findItem(menuResourceId);
         MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider)
@@ -309,6 +309,26 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
         }
         return mediaRouteMenuItem;
     }
+	
+	/**
+	 * Adds and wires up the Media Router cast button. It then returns the Media
+	 * Route Cast Button instance if the caller needs such reference.
+	 * 
+	 * param routeButton The media route button of instance MediaRouteButton
+	 * 
+	 * @return
+	 */
+	public MediaRouteButton addMediaRouterButton(View routeButton) {
+		MediaRouteButton button = null;
+		if (routeButton != null && routeButton instanceof MediaRouteButton) {
+			button = (MediaRouteButton) routeButton;
+			button.setRouteSelector(mMediaRouteSelector);
+			if (null != getMediaRouteDialogFactory()) {
+				button.setDialogFactory(getMediaRouteDialogFactory());
+			}
+		}
+		return button;
+	}
 
     /*************************************************************************/
     /************** UI Visibility Management *********************************/
